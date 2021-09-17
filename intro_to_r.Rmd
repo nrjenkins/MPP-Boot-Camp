@@ -1,0 +1,231 @@
+---
+title: "Welcome to R and Markdown"
+author: "Nicholas R. Jenkins"
+date: "September 20/21, 2021"
+output:
+  html_document:
+    df_print: paged
+---
+
+# This is a heading
+
+## This is a smaller header
+
+### This is an even smaller header
+
+#### ... you get it
+
+-   This makes a bullet point
+
+-   What about a numbered list?
+
+1.  Just use numbers...
+
+To write code, you insert a "code block."
+
+# Ok, Now Let's Code
+
+R and Python are basically just really fancy calculators. Let's start by doing some basic calculations:
+
+```{r}
+1 + 1
+
+5 + 2
+```
+
+Notice the spaces on either side of the "+" operator. This is considered good grammar. Following good grammar is important because it makes our code easier to read. Goodgrammarisoptional but it sure makes this easier! Here are some examples of "bad grammar":
+
+```{r}
+1+1 # bad
+5*3/1^3 # bad
+```
+
+Yes, we can do more than add.
+
+```{r}
+# multiplication
+4 * 8
+5 * 19
+
+# division
+4 / 8
+14 / 7
+
+# cubes
+4 ^ 2
+```
+
+Notebooks show the results of our code right below each code block, but what if we wanted to save the answer to retrieve later? We can do this be creating an object. This is done using the assignment operator. In R, the assignment operator is `<-` and in Python we use `=`
+
+```{r}
+answer <- 5 + 2
+```
+
+To see what the answer is, we just call on the object we created which is called "answer"
+
+```{r}
+answer
+```
+
+We can use objects to do operations as well:
+
+```{r}
+answer * 10
+```
+
+# Data Types
+
+In R and Python, all objects have three attributes:
+
+-   name
+-   value
+-   type
+
+For example, the object we just created is named "answer" and its value is 7. But what is its type? To find out we need to use the `class()` function.
+
+A quick side note on functions. Most software programs for data rely on the use of functions. That might sound intimidating, but it's straight forward. Remember back in algebra class when you learned how to solve $y = 5x$? Well, that's a function. In this equation, $y$ is a function of $x$. If $x = 2$ then $y$ equals 10. Easy. We could also write this expression as $f(x) = 5x$. This is the same expression, just written differently. In these equations, $y$, or $f(x)$ is the function and $x$ is called the argument. Whatever number we choose for $x$ will determine the output of the function.
+
+In programming, the functions we use look a little different but they still work the same way. For example, if we wanted to find the sum of a bunch of numbers we could use a `sum()` function where we put the argument in the parentheses. We'll get more practice at this as we move along, but for now lets use the `class()` function to find out what type of data the object `answer` contains. In this case, the arugment we want to use is the object that we want to learn about, and that object is called `answer`.
+
+If you look in the environment pane, you will see the object (answer) that we created.
+
+```{r}
+class(answer)
+```
+
+This tells us that the object "answer" has a type of numeric. It's numeric data (because it's a number).
+
+There are other important types of data, too.
+
+\* Strings (or character)
+
+\* Logical
+
+\* Categorical (or factor)
+
+Before we look at some examples of these, it's important to know that we can create combinations, or lists) of values in one object. We do this in R using the \`c()\` function:
+
+```{r}
+c(1 + 4, 4 * 2, 10)
+```
+
+We can also assign combinations to objects:
+
+```{r}
+new.object <- c(1 + 4, 4 * 2, 10)
+new.object
+```
+
+Now let's look at some examples of these different types of data.
+
+```{r}
+string.example <- c("high school", "bachelors", "grad school")
+
+string.example
+
+class(string.example)
+```
+
+```{r}
+logical.example <- c(0, 1, 0)
+
+logical.example
+
+class(logical.example)
+```
+
+Wait, numeric? Yes, its because we need to convert the object to be the type "logical." We do this with the \`as.logical()\` function.
+
+```{r}
+logical.example <- as.logical(logical.example)
+
+logical.example
+
+class(logical.example)
+```
+
+```{r}
+cat.exp <- as.factor(string.example)
+
+cat.exp
+
+class(cat.exp)
+```
+
+# Import Data
+
+Of course, we can use R or Python to work with existing data by importing it. R and Python can import data of almost any file type. Excel files, csv files, Stata files, SPSS files, JSON files, txt files, PDFs, SAS files, ...
+
+Importing data is pretty much the same for any file, but different files sometimes require different functions. To import a CSV file in R, we use the \`read.csv()\` function.
+
+```{r}
+read.csv("intro_data.csv")
+```
+
+Yay, we imported our data! But...we didn't save it to an object!
+
+```{r}
+first.data <- read.csv("intro_data.csv")
+```
+
+## 1. What does each row of data describe?
+
+```{r}
+View(first.data)
+```
+
+## 2. How many rows of data are there?
+
+```{r}
+nrow(first.data)
+```
+
+## 3. What is the average over 65 population across all congressional districts?
+
+-   To find the mean we use the function `mean`, but we also need to tell R what variable we want to find the mean for. The variable that we want is called `AGE65` and it is stored in the object we named `data`. First we give R the object, then we use `$` to find the variable.
+
+```{r}
+mean(first.data$AGE65)
+```
+
+We can also get fancy and put a function inside of another function. Suppose we wanted to round this answer:
+
+```{r}
+round(mean(first.data$AGE65), 2)
+```
+
+## 4. Create an indicator variable for California called "ca_dum"
+
+We can also use `$` to add new variables:
+
+```{r}
+first.data$ca_dum <- ifelse(test = first.data$STATE == "CA", yes = 1, no = 0)
+```
+
+## 5. What is the average over 65 population in each state?
+
+```{r}
+aggregate(formula = FIPSTATE ~ AGE65, data = first.data, FUN = mean)
+```
+
+## 6. How many total blue collar workers are there in each state?
+
+```{r}
+aggregate(formula = FIPSTATE ~ BLUCLLR, data = first.data, FUN = sum)
+```
+
+When you're done, run this command:
+
+```{r}
+rm(list = ls())
+```
+
+# Practice Problems
+
+1\. Import the `intro_data.csv` data.
+
+2\. What is the average military population across all congressional districts?
+
+3\. Create an indicator called `cd_10_dum` for when a congressional district equals 10.
+
+4\. How many total farmers are there in each state? (Name your variable `tot_farmers`).

@@ -1,0 +1,105 @@
+---
+title: "Data Cleaning"
+author: "Nicholas R. Jenkins"
+date: "September 20/21, 2021"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Overview
+
+Now we're going to learn how to prepare our data for analysis and how to visualize it!
+
+# Importing the Data
+
+Start by importing the data set. Don't forget to put the file name in `""`.
+
+```{r}
+leg.data <- read.csv("leg_data.csv")
+```
+
+# Working with Categorical Data
+
+Let's give the 1's and 2's of `party` more informative labels. To do this in R, we'll convert this variable to a categorical variable with the `factor` function.
+
+```{r}
+leg.data$party <- factor(x = leg.data$party,
+                         levels = c(1, 2), # these are the values in party
+                         # Label the levels with these labels:
+                         labels = c("Republican", "Democrat"))
+
+summary(leg.data$party)
+```
+
+Let's look at the full data set to see what we did.
+
+```{r}
+View(leg.data)
+```
+
+Notice that R automatically converted the value of -99 to "NA" which stands for "Not Available." This is how R tells us that the data is missing. This happened because we didn't list "-99" as one of the category options.
+
+When we ask R to convert one type of data to another, and it encounters an impossible case it gives us a warning and creates an `NA` value. For example:
+
+```{r}
+x <- c("1", "b", "3")
+
+class(x)
+```
+
+We just created a character vector. Let's see what happens when we try to convert it to numeric data.
+
+```{r}
+as.numeric(x)
+```
+
+R does not have any guesses for what number you want when you type `b`, so it does not try.
+
+# Naming Data
+
+It's always a good idea to have informative variable names. This helps us keep track of what data we have. Let's look at the names in our data.
+
+```{r}
+names(leg.data)
+```
+
+`x`, `XMP098`, and `M0974` aren't very descriptive. Let's fix that.
+
+```{r}
+names(leg.data)[1] <- "name"
+names(leg.data)
+```
+
+Ok, that fixed the first one. We can use the same process to fix the last two.
+
+Suppose we want to sort our data by year from the oldest date to the most recent. We can use the `sort()` function for this.
+
+```{r}
+sort(leg.data$year)
+```
+
+# Summary Statistics
+
+We can calculate some quick summary statistics with the `summary() function`.
+
+```{r}
+summary(leg.data)
+```
+
+These don't look very pretty though. Let's clean them up with the practice problems!
+
+# Practice Problems
+
+1.  Give `XMP098` (this is the variable for sex) and `M094` (this is the variable for birth year) more informative variable names.
+
+2.  What type of data should `cd` be? Can you convert it to that type?
+
+3.  Give the values "1" and "2" of `XMP098` informative labels.
+
+```{=html}
+<!-- -->
+```
+4.  What is the average birth year?
+
+5.  What is the average birth year by sex?
