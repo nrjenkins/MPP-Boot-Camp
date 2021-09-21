@@ -194,24 +194,12 @@ We can also get fancy and put a function inside of another function. Suppose we 
 round(mean(first.data$AGE65), 2)
 ```
 
-## 4. Create an indicator variable for California called "ca_dum"
+## 4. Create an indicator variable for California called `ca_dum`
 
 We can also use `$` to add new variables:
 
 ```{r}
 first.data$ca_dum <- ifelse(test = first.data$STATE == "CA", yes = 1, no = 0)
-```
-
-## 5. What is the average over 65 population in each state?
-
-```{r}
-aggregate(formula = FIPSTATE ~ AGE65, data = first.data, FUN = mean)
-```
-
-## 6. How many total blue collar workers are there in each state?
-
-```{r}
-aggregate(formula = FIPSTATE ~ BLUCLLR, data = first.data, FUN = sum)
 ```
 
 When you're done, run this command:
@@ -227,5 +215,3 @@ rm(list = ls())
 2\. What is the average military population across all congressional districts?
 
 3\. Create an indicator called `cd_10_dum` for when a congressional district equals 10.
-
-4\. How many total farmers are there in each state? (Name your variable `tot_farmers`).

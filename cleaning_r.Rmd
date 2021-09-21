@@ -97,9 +97,4 @@ These don't look very pretty though. Let's clean them up with the practice probl
 
 3.  Give the values "1" and "2" of `XMP098` informative labels.
 
-```{=html}
-<!-- -->
-```
 4.  What is the average birth year?
-
-5.  What is the average birth year by sex?
